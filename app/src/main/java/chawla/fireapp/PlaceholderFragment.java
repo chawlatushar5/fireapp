@@ -67,11 +67,13 @@ public class PlaceholderFragment extends Fragment {
                         Map<String, String> map= postsnapsht.getValue(Map.class);
                         Job_class temp_object = new Job_class(map.get("Job Title"), map.get("Job Description"), map.get("Location"), map.get("Cost"), map.get("Time"), map.get("Job Status"), map.get("Uploader name"), map.get("Assignee"), map.get("Category"));
                         Log.d(TAG, "JOB TITLEH" + temp_object.getJob_title_());
-                        temp.add(temp_object);
+                        if (temp_object.getUploader_name().toString().equalsIgnoreCase("Tusky")) {
+                            temp.add(temp_object);
+                        }
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.unassigned);
                     List<Product> mProductList = new ArrayList<>();
-                    for (int n=0;n<temp.size(); n++){
+                    for (int n=temp.size()-1;n>0; n--){
                         mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
@@ -113,7 +115,7 @@ public class PlaceholderFragment extends Fragment {
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.listview_product);
                     List<Product> mProductList = new ArrayList<>();
-                    for (int n=0;n<temp.size(); n++){
+                    for (int n=temp.size()-1;n>0; n--){
                         mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
