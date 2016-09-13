@@ -26,6 +26,9 @@ import java.util.Vector;
 public class PlaceholderFragment extends Fragment {
 
     Vector<Job_class> temp;
+    Vector<Job_class> takahi;
+    Vector<Job_class> done;
+
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -61,6 +64,8 @@ public class PlaceholderFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "The Getting data counts:" + dataSnapshot.getChildrenCount());
                     temp = new Vector<Job_class>();
+                    takahi = new Vector<Job_class>();
+                    done = new Vector<Job_class>();
                     for (DataSnapshot postsnapsht : dataSnapshot.getChildren()){
 
                         Log.d(TAG, "The Getting formed data" + postsnapsht.getValue());
@@ -68,7 +73,21 @@ public class PlaceholderFragment extends Fragment {
                         Job_class temp_object = new Job_class(map.get("Job Title"), map.get("Job Description"), map.get("Location"), map.get("Cost"), map.get("Time"), map.get("Job Status"), map.get("Uploader name"), map.get("Assignee"), map.get("Category"));
                         Log.d(TAG, "JOB TITLEH" + temp_object.getJob_title_());
                         if (temp_object.getUploader_name().toString().equalsIgnoreCase("Tusky")) {
-                            temp.add(temp_object);
+                            if (temp_object.getJob_status_().toString().equalsIgnoreCase("False")) {
+                                if (temp_object.getAssignee_name().toString().equalsIgnoreCase("Null")) {
+                                    temp.add(temp_object);
+                                    Log.d(TAG, "Hey" + temp_object.getJob_title_());
+                                }
+                                else{
+                                    takahi.add(temp_object);
+                                }
+
+                            }
+                            else {
+                                done.add(temp_object);
+                            }
+
+
                         }
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.unassigned);
