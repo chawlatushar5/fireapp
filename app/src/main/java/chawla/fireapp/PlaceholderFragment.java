@@ -51,9 +51,45 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
+        if (getArguments().getInt(ARG_SECTION_NUMBER) == 2)
+
+        {
+            Firebase aPref = new Firebase("https://fireapp-1914a.firebaseio.com/Jobs");
             final View rootView = inflater.inflate(R.layout.my_chores, container, false);
-            Log.d(TAG, "The temp");
+            aPref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d(TAG, "The Getting data counts:" + dataSnapshot.getChildrenCount());
+                    temp = new Vector<Job_class>();
+                    for (DataSnapshot postsnapsht : dataSnapshot.getChildren()){
+
+                        Log.d(TAG, "The Getting formed data" + postsnapsht.getValue());
+                        Map<String, String> map= postsnapsht.getValue(Map.class);
+                        Job_class temp_object = new Job_class(map.get("Job Title"), map.get("Job Description"), map.get("Location"), map.get("Cost"), map.get("Time"), map.get("Job Status"), map.get("Uploader name"), map.get("Assignee"), map.get("Category"));
+                        Log.d(TAG, "JOB TITLEH" + temp_object.getJob_title_());
+                        temp.add(temp_object);
+                    }
+                    ListView lvProduct =(ListView) rootView.findViewById(R.id.unassigned);
+                    List<Product> mProductList = new ArrayList<>();
+                    for (int n=0;n<temp.size(); n++){
+                        mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
+                    }
+                    ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
+                    lvProduct.setAdapter(adapter);
+                    lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            //  Log.e("H", "THe var is :"+ (((TextView)view).getText().toString()))
+                            startActivity(new Intent(getActivity(), chore_info.class));
+                        }
+                    });
+                }
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                    Log.v("E-Value", "Error from Import" + firebaseError);
+                }
+            });
             return rootView;
         }
         if (getArguments().getInt(ARG_SECTION_NUMBER) == 1){
