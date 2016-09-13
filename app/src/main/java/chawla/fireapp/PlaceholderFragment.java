@@ -92,11 +92,14 @@ public class PlaceholderFragment extends Fragment {
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.unassigned);
                     List<Product> mProductList = new ArrayList<>();
-                    for (int n=temp.size()-1;n>0; n--){
+                    for (int n=temp.size()-1;n>=0; n--){
                         mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
                     lvProduct.setAdapter(adapter);
+
+
+
                     lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -107,7 +110,7 @@ public class PlaceholderFragment extends Fragment {
                     });
                     ListView lProduct =(ListView) rootView.findViewById(R.id.assigned);
                     List<Product> lProductList = new ArrayList<>();
-                    for (int n=takahi.size()-1;n>0; n--){
+                    for (int n=takahi.size()-1;n>=0; n--){
                         lProductList.add(new Product(takahi.get(n).getCost(), "Bla", takahi.get(n).getJob_title_(), takahi.get(n).getJob_description_()));
                     }
                     ProductListAdapter ladapter=new ProductListAdapter(getActivity().getApplicationContext(), lProductList);
@@ -116,13 +119,15 @@ public class PlaceholderFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            //  Log.e("H", "THe var is :"+ (((TextView)view).getText().toString()))
+                            //  Log.e("Haider", "THe var is :"+ (((TextView)view).getText().toString()))
                             startActivity(new Intent(getActivity(), chore_info.class));
                         }
                     });
+
+
                     ListView vProduct =(ListView) rootView.findViewById(R.id.finished);
                     List<Product> vProductList = new ArrayList<>();
-                    for (int n=done.size()-1;n>0; n--){
+                    for (int n=done.size()-1;n>=0; n--){
                         vProductList.add(new Product(done.get(n).getCost(), "Bla", done.get(n).getJob_title_(), done.get(n).getJob_description_()));
                     }
                     ProductListAdapter vadapter=new ProductListAdapter(getActivity().getApplicationContext(), vProductList);
@@ -164,7 +169,7 @@ public class PlaceholderFragment extends Fragment {
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.listview_product);
                     List<Product> mProductList = new ArrayList<>();
-                    for (int n=temp.size()-1;n>0; n--){
+                    for (int n=temp.size()-1;n>=0; n--){
                         mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
