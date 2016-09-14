@@ -75,19 +75,20 @@ public class Main2Activity extends AppCompatActivity implements AdapterView.OnIt
                 Job.put("Assignee", "Null");
                 jobroot.push().setValue(Job);
 
+
                 String code = null;
 
                 Job_class rest = new Job_class(Job_title.getText().toString(),Job_des.getText().toString(),Location.getText().toString(), Cost.getText().toString(),  Time.getText().toString(), "false","Tusky", "null", myText.getText().toString() );
 
-                try {
-                    code = new send_text().execute(rest).get();
+               /* try {
+                   code = new send_text().execute(rest).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
 
-                    Log.d(TAG,"The messege result: " + code );
+                    Log.d(TAG,"The messege result: " + code );*/
                 Toast.makeText(getApplicationContext(), "Text will be sent to all " + myText.getText()+"'s of this area.", Toast.LENGTH_SHORT).show();
 
 

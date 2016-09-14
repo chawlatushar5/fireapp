@@ -12,6 +12,7 @@ public class Job_class { private String Job_title_;
     private String uploader_name;
     private String assignee_name;
     private String Catogory;
+    private String key;
 
 
 
@@ -27,6 +28,13 @@ public class Job_class { private String Job_title_;
         this.assignee_name = assignee_name;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getJob_title_() {
         return Job_title_;

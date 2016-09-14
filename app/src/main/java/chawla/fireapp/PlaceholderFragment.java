@@ -16,6 +16,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,7 @@ public class PlaceholderFragment extends Fragment {
                         Log.d(TAG, "The Getting formed data" + postsnapsht.getValue());
                         Map<String, String> map= postsnapsht.getValue(Map.class);
                         Job_class temp_object = new Job_class(map.get("Job Title"), map.get("Job Description"), map.get("Location"), map.get("Cost"), map.get("Time"), map.get("Job Status"), map.get("Uploader name"), map.get("Assignee"), map.get("Category"));
+                        temp_object.setKey(postsnapsht.getKey());
                         Log.d(TAG, "JOB TITLEH" + temp_object.getJob_title_());
                         if (temp_object.getUploader_name().toString().equalsIgnoreCase("Tusky")) {
                             if (temp_object.getJob_status_().toString().equalsIgnoreCase("False")) {
@@ -95,7 +97,7 @@ public class PlaceholderFragment extends Fragment {
                     List<Product> mProductList = new ArrayList<>();
                     mProductList.add(new Product("", "", "Assigned", "========================================="));
                     for (int n=temp.size()-1;n>=0; n--){
-                        mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
+                        mProductList.add(new Product(temp.get(n).getCost(), temp.get(n).getKey(), temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
                     mProductList.add(new Product("", "", "Unassigned", "========================================="));
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
@@ -108,43 +110,23 @@ public class PlaceholderFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                               TextView star = (TextView) view.findViewById(R.id.name);
-                                   Log.e("The vr is :", "bla" + star.getText().toString());
-                            startActivity(new Intent(getActivity(), chore_info.class));
+                                  Log.e("The vr is :", "bla" + star.getText().toString());
+                            Product jc_obj= (Product) parent.getItemAtPosition(position);
+                            Log.e("Hey Key",jc_obj.getId());
+                            Intent i = new Intent( getActivity() , chore_info.class );
+                            i.putExtra("my_object", jc_obj.getId());
+                            startActivity(i);
                         }
                     });
-                    //ListView lProduct =(ListView) rootView.findViewById(R.id.assigned);
-                   // List<Product> lProductList = new ArrayList<>();
+
                     for (int n=takahi.size()-1;n>=0; n--){
-                        mProductList.add(new Product(takahi.get(n).getCost(), "Bla", takahi.get(n).getJob_title_(), takahi.get(n).getJob_description_()));
+                        mProductList.add(new Product(takahi.get(n).getCost(), takahi.get(n).getKey(), takahi.get(n).getJob_title_(), takahi.get(n).getJob_description_()));
                     }
                     mProductList.add(new Product("", "", "Finished", "========================================="));
-                    //ProductListAdapter ladapter=new ProductListAdapter(getActivity().getApplicationContext(), lProductList);
-                    //lProduct.setAdapter(ladapter);
-                    //lProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                    //    @Override
-                    //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            //  Log.e("Haider", "THe var is :"+ (((TextView)view).getText().toString()))
-                    //        startActivity(new Intent(getActivity(), chore_info.class));
-                    //    }
-                   // });
-
-
-                   // ListView vProduct =(ListView) rootView.findViewById(R.id.finished);
-                    //List<Product> vProductList = new ArrayList<>();
                     for (int n=done.size()-1;n>=0; n--){
-                        mProductList.add(new Product(done.get(n).getCost(), "Bla", done.get(n).getJob_title_(), done.get(n).getJob_description_()));
+                        mProductList.add(new Product(done.get(n).getCost(), done.get(n).getKey(), done.get(n).getJob_title_(), done.get(n).getJob_description_()));
                     }
-                   // ProductListAdapter vadapter=new ProductListAdapter(getActivity().getApplicationContext(), vProductList);
-                   // vProduct.setAdapter(vadapter);
-                   // vProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                    //    @Override
-                   //     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            //  Log.e("H", "THe var is :"+ (((TextView)view).getText().toString()))
-                    //        startActivity(new Intent(getActivity(), chore_info.class));
-                   //     }
-                   // });
                 }
                 @Override
                 public void onCancelled(FirebaseError firebaseError) {
@@ -167,15 +149,17 @@ public class PlaceholderFragment extends Fragment {
                     for (DataSnapshot postsnapsht : dataSnapshot.getChildren()){
 
                         Log.d(TAG, "The Getting formed data" + postsnapsht.getValue());
+
                         Map<String, String> map= postsnapsht.getValue(Map.class);
                         Job_class temp_object = new Job_class(map.get("Job Title"), map.get("Job Description"), map.get("Location"), map.get("Cost"), map.get("Time"), map.get("Job Status"), map.get("Uploader name"), map.get("Assignee"), map.get("Category"));
+                        temp_object.setKey(postsnapsht.getKey());
                         Log.d(TAG, "JOB TITLEH" + temp_object.getJob_title_());
                         temp.add(temp_object);
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.listview_product);
                     List<Product> mProductList = new ArrayList<>();
                     for (int n=temp.size()-1;n>=0; n--){
-                        mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
+                        mProductList.add(new Product(temp.get(n).getCost(), temp.get(n).getKey(), temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
                     lvProduct.setAdapter(adapter);
@@ -183,8 +167,11 @@ public class PlaceholderFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            //  Log.e("H", "THe var is :"+ (((TextView)view).getText().toString()))
-                            startActivity(new Intent(getActivity(), chore_info.class));
+                            Product jc_obj= (Product) parent.getItemAtPosition(position);
+                            Log.e("Hey my list Key",jc_obj.getId());
+                            Intent i = new Intent( getActivity() , chore_info.class );
+                            i.putExtra("my_object", jc_obj.getId());
+                            startActivity(i);
                         }
                     });
                 }
