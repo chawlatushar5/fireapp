@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -92,9 +93,11 @@ public class PlaceholderFragment extends Fragment {
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.unassigned);
                     List<Product> mProductList = new ArrayList<>();
+                    mProductList.add(new Product("", "", "Assigned", "========================================="));
                     for (int n=temp.size()-1;n>=0; n--){
                         mProductList.add(new Product(temp.get(n).getCost(), "Bla", temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
+                    mProductList.add(new Product("", "", "Unassigned", "========================================="));
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
                     lvProduct.setAdapter(adapter);
 
@@ -104,42 +107,44 @@ public class PlaceholderFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            //  Log.e("H", "THe var is :"+ (((TextView)view).getText().toString()))
+                              TextView star = (TextView) view.findViewById(R.id.name);
+                                   Log.e("The vr is :", "bla" + star.getText().toString());
                             startActivity(new Intent(getActivity(), chore_info.class));
                         }
                     });
-                    ListView lProduct =(ListView) rootView.findViewById(R.id.assigned);
-                    List<Product> lProductList = new ArrayList<>();
+                    //ListView lProduct =(ListView) rootView.findViewById(R.id.assigned);
+                   // List<Product> lProductList = new ArrayList<>();
                     for (int n=takahi.size()-1;n>=0; n--){
-                        lProductList.add(new Product(takahi.get(n).getCost(), "Bla", takahi.get(n).getJob_title_(), takahi.get(n).getJob_description_()));
+                        mProductList.add(new Product(takahi.get(n).getCost(), "Bla", takahi.get(n).getJob_title_(), takahi.get(n).getJob_description_()));
                     }
-                    ProductListAdapter ladapter=new ProductListAdapter(getActivity().getApplicationContext(), lProductList);
-                    lProduct.setAdapter(ladapter);
-                    lProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    mProductList.add(new Product("", "", "Finished", "========================================="));
+                    //ProductListAdapter ladapter=new ProductListAdapter(getActivity().getApplicationContext(), lProductList);
+                    //lProduct.setAdapter(ladapter);
+                    //lProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    //    @Override
+                    //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                             //  Log.e("Haider", "THe var is :"+ (((TextView)view).getText().toString()))
-                            startActivity(new Intent(getActivity(), chore_info.class));
-                        }
-                    });
+                    //        startActivity(new Intent(getActivity(), chore_info.class));
+                    //    }
+                   // });
 
 
-                    ListView vProduct =(ListView) rootView.findViewById(R.id.finished);
-                    List<Product> vProductList = new ArrayList<>();
+                   // ListView vProduct =(ListView) rootView.findViewById(R.id.finished);
+                    //List<Product> vProductList = new ArrayList<>();
                     for (int n=done.size()-1;n>=0; n--){
-                        vProductList.add(new Product(done.get(n).getCost(), "Bla", done.get(n).getJob_title_(), done.get(n).getJob_description_()));
+                        mProductList.add(new Product(done.get(n).getCost(), "Bla", done.get(n).getJob_title_(), done.get(n).getJob_description_()));
                     }
-                    ProductListAdapter vadapter=new ProductListAdapter(getActivity().getApplicationContext(), vProductList);
-                    vProduct.setAdapter(vadapter);
-                    vProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                   // ProductListAdapter vadapter=new ProductListAdapter(getActivity().getApplicationContext(), vProductList);
+                   // vProduct.setAdapter(vadapter);
+                   // vProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    //    @Override
+                   //     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                             //  Log.e("H", "THe var is :"+ (((TextView)view).getText().toString()))
-                            startActivity(new Intent(getActivity(), chore_info.class));
-                        }
-                    });
+                    //        startActivity(new Intent(getActivity(), chore_info.class));
+                   //     }
+                   // });
                 }
                 @Override
                 public void onCancelled(FirebaseError firebaseError) {

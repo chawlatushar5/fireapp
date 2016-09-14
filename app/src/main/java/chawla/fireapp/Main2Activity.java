@@ -88,6 +88,7 @@ public class Main2Activity extends AppCompatActivity implements AdapterView.OnIt
                 }
 
                     Log.d(TAG,"The messege result: " + code );
+                Toast.makeText(getApplicationContext(), "Text will be sent to all " + myText.getText()+"'s of this area.", Toast.LENGTH_SHORT).show();
 
 
 
@@ -107,9 +108,6 @@ public class Main2Activity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         myText =(TextView) view;
-        Toast.makeText(this, "Text will be sent to all " + myText.getText()+" of this area.", Toast.LENGTH_SHORT).show();
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
     }
 
     @Override
