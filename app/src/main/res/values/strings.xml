@@ -10,4 +10,6 @@
         <item>Movers</item>
 
     </string-array>
+    <string name="title_activity_login_register">Login\\Register</string>
+    <string name="title_activity_first_login">Login/Register</string>
 </resources>

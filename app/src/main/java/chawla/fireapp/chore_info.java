@@ -59,8 +59,8 @@ public class chore_info extends AppCompatActivity {
                         jobtitle.setText(map.get("Job Title"));
                         jobdescription.setText(map.get("Job Description"));
                         String[] ITname= {
-                                "Tushar",
-                                "Tamanna",
+                                "Time",
+                                "Location",
                         };
                         Integer[] imgid={
                                R.mipmap.ic_launcher,

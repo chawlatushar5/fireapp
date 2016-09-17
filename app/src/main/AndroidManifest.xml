@@ -14,6 +14,13 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Add_chore" />
+        <activity android:name=".chore_info" />
+
+        <activity
+            android:name=".First_login"
+            android:label="Helping Hands"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".chore_info"></activity>
     </application>
 
 </manifest>

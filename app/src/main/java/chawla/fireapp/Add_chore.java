@@ -15,16 +15,10 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
-public class Main2Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class Add_chore extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private static final String TAG = "Adding Chores";
     private TextView myText;
@@ -93,7 +87,7 @@ public class Main2Activity extends AppCompatActivity implements AdapterView.OnIt
 
 
 
-                startActivity(new Intent(Main2Activity.this, MainActivity.class));
+                startActivity(new Intent(Add_chore.this, MainActivity.class));
 
 
 

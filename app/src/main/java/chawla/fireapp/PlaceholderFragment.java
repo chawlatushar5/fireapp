@@ -95,11 +95,11 @@ public class PlaceholderFragment extends Fragment {
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.unassigned);
                     List<Product> mProductList = new ArrayList<>();
-                    mProductList.add(new Product("", "", "Assigned", "========================================="));
+                    mProductList.add(new Product("", "", "Unassigned", "========================================="));
                     for (int n=temp.size()-1;n>=0; n--){
                         mProductList.add(new Product(temp.get(n).getCost(), temp.get(n).getKey(), temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
-                    mProductList.add(new Product("", "", "Unassigned", "========================================="));
+                    mProductList.add(new Product("", "", "Assigned", "========================================="));
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
                     lvProduct.setAdapter(adapter);
 
@@ -109,13 +109,19 @@ public class PlaceholderFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                              TextView star = (TextView) view.findViewById(R.id.name);
-                                  Log.e("The vr is :", "bla" + star.getText().toString());
+                            TextView star = (TextView) view.findViewById(R.id.name);
+                            Log.e("The vr is :", "bla" + star.getText().toString());
                             Product jc_obj= (Product) parent.getItemAtPosition(position);
                             Log.e("Hey Key",jc_obj.getId());
                             Intent i = new Intent( getActivity() , chore_info.class );
                             i.putExtra("my_object", jc_obj.getId());
-                            startActivity(i);
+                            if (jc_obj.getId().toString().equalsIgnoreCase("")) {
+
+                            }
+                            else{
+                                startActivity(i);
+                            }
+
                         }
                     });
 
@@ -171,6 +177,7 @@ public class PlaceholderFragment extends Fragment {
                             Log.e("Hey my list Key",jc_obj.getId());
                             Intent i = new Intent( getActivity() , chore_info.class );
                             i.putExtra("my_object", jc_obj.getId());
+
                             startActivity(i);
                         }
                     });
