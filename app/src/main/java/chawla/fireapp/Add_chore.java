@@ -23,11 +23,25 @@ public class Add_chore extends AppCompatActivity implements AdapterView.OnItemSe
     private static final String TAG = "Adding Chores";
     private TextView myText;
 
+    public String user_first_name;
+    public String user_last_name;
+    public String user_email;
+    public String user_phone_number;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("H:", "I am here");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        try{
+
+        user_first_name = getIntent().getExtras().getString("first_n");
+        user_last_name = getIntent().getExtras().getString("last_n");
+        user_email = getIntent().getExtras().getString("email_n");
+        user_phone_number = getIntent().getExtras().getString("phone_n");
+
+        }catch (NullPointerException e){}
 
         final EditText Job_title = (EditText) findViewById(R.id.editText);
         final EditText Job_des = (EditText) findViewById(R.id.editText2);
@@ -64,7 +78,7 @@ public class Add_chore extends AppCompatActivity implements AdapterView.OnItemSe
                 Job.put("Cost", Cost.getText().toString());
                 Job.put("Time", Time.getText().toString());
                 Job.put("Job Status", "False");
-                Job.put("Uploader name", "Tusky");
+                Job.put("Uploader name", user_first_name);
                 Job.put("Category", myText.getText().toString());
                 Job.put("Assignee", "Null");
                 jobroot.push().setValue(Job);
@@ -87,7 +101,13 @@ public class Add_chore extends AppCompatActivity implements AdapterView.OnItemSe
 
 
 
-                startActivity(new Intent(Add_chore.this, MainActivity.class));
+                Intent main =new Intent(Add_chore.this, MainActivity.class);
+                main.putExtra("first_name", user_first_name);
+                main.putExtra("last_name", user_last_name);
+                main.putExtra("email", user_email);
+                main.putExtra("phone_number", user_phone_number);
+
+                startActivity(main);
 
 
 

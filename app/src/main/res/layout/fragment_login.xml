@@ -34,14 +34,20 @@
             android:inputType="textPassword"
             android:hint="Password"/>
     </android.support.design.widget.TextInputLayout>
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_login"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:padding="12dp"
-        android:text="Login"/>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="12dp"
+            android:text="Login"
+            android:background="#00aa75"
+            android:textColor="#f0f0f0"
+            android:textSize="18dp"/>
     <TextView android:id="@+id/no_account"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

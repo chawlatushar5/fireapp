@@ -7,11 +7,13 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -24,6 +26,9 @@ public class chore_info extends AppCompatActivity {
 
     private static final String TAG = "Info for the Chore";
 
+    public String bla="";
+    public String f_name="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +39,18 @@ public class chore_info extends AppCompatActivity {
         final ListView listview = (ListView) findViewById(R.id.loc_time);
         Button btn = (Button) findViewById(R.id.take_job);
 
-        final String bla = getIntent().getExtras().getString("my_object");
-        Log.e("Reason", bla);
-        Firebase main = new Firebase("https://fireapp-1914a.firebaseio.com/Jobs");
+
+
+        try {
+
+             bla = getIntent().getExtras().getString("my_object");
+             f_name = getIntent().getExtras().getString("first_name");
+        }
+        catch(NullPointerException e){
+            f_name="nothing";
+        }
+        //Log.e("Reason", bla);
+        final Firebase main = new Firebase("https://fireapp-1914a.firebaseio.com/Jobs");
 
         main.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -81,6 +95,7 @@ public class chore_info extends AppCompatActivity {
 
 
                     }
+
                 }
             }
 
@@ -88,6 +103,24 @@ public class chore_info extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
                 Log.e(TAG, "The error is: " + firebaseError);
 
+            }
+        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String temp = f_name;
+                Log.e(TAG, "The first name is : "+ f_name);
+
+                if ( !("nothing").equalsIgnoreCase(temp) ) {
+                    Firebase obj_ref = main.child(bla);
+                    Firebase assignee = obj_ref.child("Assignee");
+                    assignee.setValue(f_name);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "This is your own chore. You can't take it", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 

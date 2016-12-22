@@ -152,18 +152,25 @@ public class First_login extends AppCompatActivity {
 
                 Button login_btn = (Button) rootView.findViewById(R.id.btn_login);
 
+
                 login_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Usersbase.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+                                String login_check = "";
                                 for (DataSnapshot snapusers: dataSnapshot.getChildren()){
                                     Map<String, String> usermap = snapusers.getValue(Map.class);
+
                                     if ((usermap.get("Email").equalsIgnoreCase(in_email.getText().toString()))){
                                         if ((usermap.get("Password").equalsIgnoreCase(in_password.getText().toString()))){
                                             Toast.makeText(getActivity().getApplicationContext(),"Login Successfull!", Toast.LENGTH_SHORT).show();
                                             Intent bla= new Intent(getActivity(),MainActivity.class );
+                                            bla.putExtra("first_name", usermap.get("First Name"));
+                                            bla.putExtra("last_name", usermap.get("Last Name"));
+                                            bla.putExtra("email", usermap.get("Email"));
+                                            bla.putExtra("phone_number", usermap.get("Phone Number"));
                                             startActivity(bla);
 
                                         }
@@ -173,9 +180,14 @@ public class First_login extends AppCompatActivity {
                                         }
                                     }
                                     else{
-                                        Toast.makeText(getActivity().getApplicationContext(),"Username does not exist", Toast.LENGTH_SHORT).show();
+                                        login_check="fail";
+
 
                                     }
+                                }
+                                if (login_check.equalsIgnoreCase("fail")){
+                                    System.out.print("entered the login fail");
+                                    Toast.makeText(getActivity().getApplicationContext(),"Username does not exist!", Toast.LENGTH_SHORT).show();
                                 }
                             }
 

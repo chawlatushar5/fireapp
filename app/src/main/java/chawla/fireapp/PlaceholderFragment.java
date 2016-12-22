@@ -45,12 +45,17 @@ public class PlaceholderFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static PlaceholderFragment newInstance(int sectionNumber) {
+    public static PlaceholderFragment newInstance(int sectionNumber, String fn, String ln, String email, String phn) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putString("first_name", fn);
+        args.putString("last_name", ln);
+        args.putString("email", email);
+        args.putString("phone_num", phn);
         fragment.setArguments(args);
         return fragment;
+
     }
 
     @Override
@@ -68,6 +73,7 @@ public class PlaceholderFragment extends Fragment {
                     temp = new Vector<Job_class>();
                     takahi = new Vector<Job_class>();
                     done = new Vector<Job_class>();
+                    String firname = getArguments().getString("first_name");
                     for (DataSnapshot postsnapsht : dataSnapshot.getChildren()){
 
                         Log.d(TAG, "The Getting formed data" + postsnapsht.getValue());
@@ -75,7 +81,7 @@ public class PlaceholderFragment extends Fragment {
                         Job_class temp_object = new Job_class(map.get("Job Title"), map.get("Job Description"), map.get("Location"), map.get("Cost"), map.get("Time"), map.get("Job Status"), map.get("Uploader name"), map.get("Assignee"), map.get("Category"));
                         temp_object.setKey(postsnapsht.getKey());
                         Log.d(TAG, "JOB TITLEH" + temp_object.getJob_title_());
-                        if (temp_object.getUploader_name().toString().equalsIgnoreCase("Tusky")) {
+                        if (temp_object.getUploader_name().toString().equalsIgnoreCase(firname)) {
                             if (temp_object.getJob_status_().toString().equalsIgnoreCase("False")) {
                                 if (temp_object.getAssignee_name().toString().equalsIgnoreCase("Null")) {
                                     temp.add(temp_object);
@@ -95,11 +101,11 @@ public class PlaceholderFragment extends Fragment {
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.unassigned);
                     List<Product> mProductList = new ArrayList<>();
-                    mProductList.add(new Product("", "", "Unassigned", "========================================="));
+                    mProductList.add(new Product("", "", "Unassigned", ""));
                     for (int n=temp.size()-1;n>=0; n--){
-                        mProductList.add(new Product(temp.get(n).getCost(), temp.get(n).getKey(), temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
+                        mProductList.add(new Product(("$ "+temp.get(n).getCost()), temp.get(n).getKey(), temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
                     }
-                    mProductList.add(new Product("", "", "Assigned", "========================================="));
+                    mProductList.add(new Product("", "", "Assigned", ""));
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
                     lvProduct.setAdapter(adapter);
 
@@ -115,6 +121,7 @@ public class PlaceholderFragment extends Fragment {
                             Log.e("Hey Key",jc_obj.getId());
                             Intent i = new Intent( getActivity() , chore_info.class );
                             i.putExtra("my_object", jc_obj.getId());
+                            i.putExtra("first_name", "nothing");
                             if (jc_obj.getId().toString().equalsIgnoreCase("")) {
 
                             }
@@ -126,12 +133,12 @@ public class PlaceholderFragment extends Fragment {
                     });
 
                     for (int n=takahi.size()-1;n>=0; n--){
-                        mProductList.add(new Product(takahi.get(n).getCost(), takahi.get(n).getKey(), takahi.get(n).getJob_title_(), takahi.get(n).getJob_description_()));
+                        mProductList.add(new Product(("$ "+takahi.get(n).getCost()), takahi.get(n).getKey(), takahi.get(n).getJob_title_(), takahi.get(n).getJob_description_()));
                     }
-                    mProductList.add(new Product("", "", "Finished", "========================================="));
+                    mProductList.add(new Product("", "", "Finished", ""));
 
                     for (int n=done.size()-1;n>=0; n--){
-                        mProductList.add(new Product(done.get(n).getCost(), done.get(n).getKey(), done.get(n).getJob_title_(), done.get(n).getJob_description_()));
+                        mProductList.add(new Product(("$ "+done.get(n).getCost()), done.get(n).getKey(), done.get(n).getJob_title_(), done.get(n).getJob_description_()));
                     }
                 }
                 @Override
@@ -164,8 +171,12 @@ public class PlaceholderFragment extends Fragment {
                     }
                     ListView lvProduct =(ListView) rootView.findViewById(R.id.listview_product);
                     List<Product> mProductList = new ArrayList<>();
+                    String fnam = getArguments().getString("first_name");
                     for (int n=temp.size()-1;n>=0; n--){
-                        mProductList.add(new Product(temp.get(n).getCost(), temp.get(n).getKey(), temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
+
+                        if (!temp.get(n).getUploader_name().equalsIgnoreCase(fnam)) {
+                            mProductList.add(new Product(("$ " + temp.get(n).getCost()), temp.get(n).getKey(), temp.get(n).getJob_title_(), temp.get(n).getJob_description_()));
+                        }
                     }
                     ProductListAdapter adapter=new ProductListAdapter(getActivity().getApplicationContext(), mProductList);
                     lvProduct.setAdapter(adapter);
@@ -177,6 +188,7 @@ public class PlaceholderFragment extends Fragment {
                             Log.e("Hey my list Key",jc_obj.getId());
                             Intent i = new Intent( getActivity() , chore_info.class );
                             i.putExtra("my_object", jc_obj.getId());
+                            i.putExtra("first_name", getArguments().getString("first_name"));
 
                             startActivity(i);
                         }
@@ -191,6 +203,17 @@ public class PlaceholderFragment extends Fragment {
         }
         else{
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            TextView first=(TextView) rootView.findViewById(R.id.fname);
+            TextView last=(TextView) rootView.findViewById(R.id.lname);
+            TextView emailnam=(TextView) rootView.findViewById(R.id.emialname);
+            TextView phonen=(TextView) rootView.findViewById(R.id.phonename);
+
+            first.setText(getArguments().getString("first_name"));
+            last.setText(getArguments().getString("last_name"));
+            emailnam.setText(getArguments().getString("email"));
+            phonen.setText(getArguments().getString("phone_num"));
+
+
             return rootView;
 
         }

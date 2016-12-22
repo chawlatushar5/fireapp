@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,10 +33,25 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    public String user_first_name;
+    public String user_last_name;
+    public String user_email;
+    public String user_phone_number;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try {
+
+            user_first_name = getIntent().getExtras().getString("first_name");
+            user_last_name = getIntent().getExtras().getString("last_name");
+            user_email = getIntent().getExtras().getString("email");
+            user_phone_number = getIntent().getExtras().getString("phone_number");
+        }catch (NullPointerException e){}
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,7 +70,13 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, Add_chore.class));
+                Intent add_chore = new Intent(MainActivity.this, Add_chore.class);
+                add_chore.putExtra("first_n", user_first_name);
+                add_chore.putExtra("last_n", user_last_name);
+                add_chore.putExtra("email_n", user_email);
+                add_chore.putExtra("phone_n", user_phone_number);
+
+                startActivity(add_chore);
 
 
             }
@@ -101,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+
+            return PlaceholderFragment.newInstance(position + 1, user_first_name, user_last_name, user_email, user_phone_number);
         }
 
         @Override
